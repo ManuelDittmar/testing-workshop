@@ -1,0 +1,101 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.5.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "8c4dae7"
+  },
+  "schemaVersion": 16,
+  "id": "SelectHero",
+  "components": [
+    {
+      "text": "### Select Your Hero",
+      "type": "text",
+      "id": "Heading_0",
+      "layout": {
+        "row": "row_0",
+        "columns": null
+      }
+    },
+    {
+      "text": "Choose your hero wisely, the fate of the world depends on it!",
+      "type": "text",
+      "id": "Paragraph_1",
+      "layout": {
+        "row": "row_1",
+        "columns": null
+      }
+    },
+    {
+      "type": "select",
+      "id": "Select_2",
+      "label": "Hero",
+      "validate": {
+        "required": true
+      },
+      "key": "selectedHeroId",
+      "layout": {
+        "row": "row_2",
+        "columns": null
+      },
+      "valuesExpression": "=for hero in availableHeros return{\n  \"label\":hero.alias,\n  \"value\": hero.id\n}"
+    },
+    {
+      "components": [
+        {
+          "text": "**Real Name:** ",
+          "label": "Text view",
+          "type": "text",
+          "layout": {
+            "row": "Row_0qqexbg",
+            "columns": null
+          },
+          "id": "Field_1ykcbr7"
+        },
+        {
+          "text": "=availableHeros[id = selectedHeroId].name[1]",
+          "label": "Text view",
+          "type": "text",
+          "layout": {
+            "row": "Row_0qqexbg",
+            "columns": null
+          },
+          "id": "Field_0jfjaw4"
+        },
+        {
+          "text": "**Abilities:** ",
+          "label": "Text view",
+          "type": "text",
+          "layout": {
+            "row": "Row_0tgj8yi",
+            "columns": null
+          },
+          "id": "Field_1q7cmt5"
+        },
+        {
+          "text": "=availableHeros[id = selectedHeroId].abilities[1]",
+          "label": "Text view",
+          "type": "text",
+          "layout": {
+            "row": "Row_0tgj8yi",
+            "columns": null
+          },
+          "id": "Field_1uzmhs4"
+        }
+      ],
+      "showOutline": false,
+      "label": "",
+      "type": "group",
+      "layout": {
+        "row": "Row_1u2m82n",
+        "columns": null
+      },
+      "id": "Field_0fxioro",
+      "conditional": {
+        "hide": "=selectedHeroId = null"
+      }
+    }
+  ],
+  "generated": true,
+  "type": "default"
+}

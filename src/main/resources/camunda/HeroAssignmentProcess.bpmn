@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.22.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.5.0" camunda:diagramRelationId="fe1bd171-f03a-413b-a417-77ed2df131c7">
+  <bpmn:process id="HeroAssignmentProcess" name="Hero Assignment Process" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Hero required">
+      <bpmn:extensionElements>
+        <zeebe:formDefinition formId="HeroRequestForm" />
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_1ye28l7</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Activity_GetAvailableSuperHeros" name="Get Available Super Heros">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="org.camunda.consulting.get-heros:v1" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1ye28l7</bpmn:incoming>
+      <bpmn:outgoing>Flow_1qp5wz2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1ye28l7" sourceRef="StartEvent_1" targetRef="Activity_GetAvailableSuperHeros" />
+    <bpmn:userTask id="Activity_1ketppq" name="Select Super Hero">
+      <bpmn:extensionElements>
+        <zeebe:formDefinition formId="SelectHero" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1qp5wz2</bpmn:incoming>
+      <bpmn:outgoing>Flow_13oe2g8</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_1qp5wz2" sourceRef="Activity_GetAvailableSuperHeros" targetRef="Activity_1ketppq" />
+    <bpmn:endEvent id="Event_12hbtsu" name="Mission evaluated">
+      <bpmn:incoming>Flow_0ftg3vp</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:boundaryEvent id="Event_NoHero" name="No Hero available" attachedToRef="Activity_GetAvailableSuperHeros">
+      <bpmn:outgoing>Flow_1l0lpav</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_1vzxfki" errorRef="Error_NoHero" />
+    </bpmn:boundaryEvent>
+    <bpmn:serviceTask id="Activity_InformFury" name="Inform Fury" zeebe:modelerTemplate="io.camunda.connectors.HttpJson.v2" zeebe:modelerTemplateVersion="7" zeebe:modelerTemplateIcon="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE3LjAzMzUgOC45OTk5N0MxNy4wMzM1IDEzLjQ0NzUgMTMuNDI4MSAxNy4wNTI5IDguOTgwNjUgMTcuMDUyOUM0LjUzMzE2IDE3LjA1MjkgMC45Mjc3NjUgMTMuNDQ3NSAwLjkyNzc2NSA4Ljk5OTk3QzAuOTI3NzY1IDQuNTUyNDggNC41MzMxNiAwLjk0NzA4MyA4Ljk4MDY1IDAuOTQ3MDgzQzEzLjQyODEgMC45NDcwODMgMTcuMDMzNSA0LjU1MjQ4IDE3LjAzMzUgOC45OTk5N1oiIGZpbGw9IiM1MDU1NjIiLz4KPHBhdGggZD0iTTQuOTMxMjYgMTQuMTU3MUw2Ljc4MTA2IDMuNzE0NzFIMTAuMTM3NUMxMS4xOTE3IDMuNzE0NzEgMTEuOTgyNCAzLjk4MzIzIDEyLjUwOTUgNC41MjAyN0MxMy4wNDY1IDUuMDQ3MzYgMTMuMzE1IDUuNzMzNTggMTMuMzE1IDYuNTc4OTJDMTMuMzE1IDcuNDQ0MTQgMTMuMDcxNCA4LjE1NTIyIDEyLjU4NDEgOC43MTIxNUMxMi4xMDY3IDkuMjU5MTMgMTEuNDU1MyA5LjYzNzA1IDEwLjYyOTggOS44NDU5TDEyLjA2MTkgMTQuMTU3MUgxMC4zMzE1TDkuMDMzNjQgMTAuMDI0OUg3LjI0MzUxTDYuNTEyNTQgMTQuMTU3MUg0LjkzMTI2Wk03LjQ5NzExIDguNTkyODFIOS4yNDI0OEM5Ljk5ODMyIDguNTkyODEgMTAuNTkwMSA4LjQyMzc0IDExLjAxNzcgOC4wODU2MUMxMS40NTUzIDcuNzM3NTMgMTEuNjc0MSA3LjI2NTEzIDExLjY3NDEgNi42Njg0MkMxMS42NzQxIDYuMTkxMDYgMTEuNTI0OSA1LjgxODExIDExLjIyNjUgNS41NDk1OUMxMC45MjgyIDUuMjcxMTMgMTAuNDU1OCA1LjEzMTkgOS44MDkzNiA1LjEzMTlIOC4xMDg3NEw3LjQ5NzExIDguNTkyODFaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="io.camunda:http-json:1" retries="3" />
+        <zeebe:ioMapping>
+          <zeebe:input source="noAuth" target="authentication.type" />
+          <zeebe:input source="GET" target="method" />
+          <zeebe:input source="https://httpbin.org/get" target="url" />
+          <zeebe:input source="20" target="connectionTimeoutInSeconds" />
+          <zeebe:input source="20" target="readTimeoutInSeconds" />
+        </zeebe:ioMapping>
+        <zeebe:taskHeaders>
+          <zeebe:header key="resultVariable" />
+          <zeebe:header key="resultExpression" />
+          <zeebe:header key="errorExpression" />
+          <zeebe:header key="retryBackoff" value="PT0S" />
+        </zeebe:taskHeaders>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1l0lpav</bpmn:incoming>
+      <bpmn:outgoing>Flow_0zujrnv</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1l0lpav" sourceRef="Event_NoHero" targetRef="Activity_InformFury" />
+    <bpmn:endEvent id="Event_024ylq8" name="Assignment Failed">
+      <bpmn:incoming>Flow_0zujrnv</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0zujrnv" sourceRef="Activity_InformFury" targetRef="Event_024ylq8" />
+    <bpmn:subProcess id="Activity_0xencjc">
+      <bpmn:incoming>Flow_13oe2g8</bpmn:incoming>
+      <bpmn:outgoing>Flow_1tbre5u</bpmn:outgoing>
+      <bpmn:startEvent id="Event_0xxwffa" name="Mission started">
+        <bpmn:outgoing>Flow_1q1lp2p</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:serviceTask id="Activity_AssignHeroToMission" name="Assign Hero to Mission">
+        <bpmn:extensionElements>
+          <zeebe:taskDefinition type="org.camunda.consulting.assign-hero:v1" />
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_1q1lp2p</bpmn:incoming>
+        <bpmn:outgoing>Flow_02evhr3</bpmn:outgoing>
+      </bpmn:serviceTask>
+      <bpmn:eventBasedGateway id="Gateway_EventBased">
+        <bpmn:incoming>Flow_02evhr3</bpmn:incoming>
+        <bpmn:outgoing>Flow_1akqjx9</bpmn:outgoing>
+        <bpmn:outgoing>Flow_1ui4ngr</bpmn:outgoing>
+      </bpmn:eventBasedGateway>
+      <bpmn:intermediateCatchEvent id="Event_DeadlineTimer" name="Deadline exceeded">
+        <bpmn:incoming>Flow_1ui4ngr</bpmn:incoming>
+        <bpmn:outgoing>Flow_087qalt</bpmn:outgoing>
+        <bpmn:timerEventDefinition id="TimerEventDefinition_1iq2w6l">
+          <bpmn:timeDate xsi:type="bpmn:tFormalExpression">=date and time(deadline)</bpmn:timeDate>
+        </bpmn:timerEventDefinition>
+      </bpmn:intermediateCatchEvent>
+      <bpmn:intermediateCatchEvent id="Event_1nn9fsy" name="Mission Update received">
+        <bpmn:incoming>Flow_1akqjx9</bpmn:incoming>
+        <bpmn:outgoing>Flow_035xrrm</bpmn:outgoing>
+        <bpmn:messageEventDefinition id="MessageEventDefinition_1ls64qz" messageRef="Message_334g9d4" />
+      </bpmn:intermediateCatchEvent>
+      <bpmn:sequenceFlow id="Flow_02evhr3" sourceRef="Activity_AssignHeroToMission" targetRef="Gateway_EventBased" />
+      <bpmn:sequenceFlow id="Flow_1akqjx9" sourceRef="Gateway_EventBased" targetRef="Event_1nn9fsy" />
+      <bpmn:sequenceFlow id="Flow_1ui4ngr" sourceRef="Gateway_EventBased" targetRef="Event_DeadlineTimer" />
+      <bpmn:sequenceFlow id="Flow_1q1lp2p" sourceRef="Event_0xxwffa" targetRef="Activity_AssignHeroToMission" />
+      <bpmn:endEvent id="Event_1eyzxx2" name="Assignment completed">
+        <bpmn:incoming>Flow_035xrrm</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="Flow_035xrrm" sourceRef="Event_1nn9fsy" targetRef="Event_1eyzxx2" />
+      <bpmn:sequenceFlow id="Flow_087qalt" sourceRef="Event_DeadlineTimer" targetRef="Event_0i4pbkg" />
+      <bpmn:endEvent id="Event_0i4pbkg" name="Requirements not met">
+        <bpmn:incoming>Flow_087qalt</bpmn:incoming>
+        <bpmn:errorEventDefinition id="ErrorEventDefinition_0o9wk9d" errorRef="Error_0m5u6hk" />
+      </bpmn:endEvent>
+    </bpmn:subProcess>
+    <bpmn:sequenceFlow id="Flow_13oe2g8" sourceRef="Activity_1ketppq" targetRef="Activity_0xencjc" />
+    <bpmn:sequenceFlow id="Flow_1tbre5u" sourceRef="Activity_0xencjc" targetRef="EvaluateMission" />
+    <bpmn:boundaryEvent id="Event_Avengers" name="&#34;Avengers Assemble&#34; situation" attachedToRef="Activity_0xencjc">
+      <bpmn:outgoing>Flow_0z1a03x</bpmn:outgoing>
+      <bpmn:signalEventDefinition id="SignalEventDefinition_114vp11" signalRef="Signal_3a19jdh" />
+    </bpmn:boundaryEvent>
+    <bpmn:serviceTask id="Activity_UpdateMission" name="Update Mission">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="org.camunda.consulting.update-mission:v1" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_069jbay</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ftg3vp</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0ftg3vp" sourceRef="Activity_UpdateMission" targetRef="Event_12hbtsu" />
+    <bpmn:userTask id="EvaluateMission" name="Evaluate Mission">
+      <bpmn:extensionElements>
+        <zeebe:formDefinition formId="HeroRatingForm" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1tbre5u</bpmn:incoming>
+      <bpmn:outgoing>Flow_1j4acv3</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_1j4acv3" sourceRef="EvaluateMission" targetRef="Gateway_173q0k7" />
+    <bpmn:boundaryEvent id="Event_0iflbcc" name="Requirements not met" attachedToRef="Activity_0xencjc">
+      <bpmn:outgoing>Flow_16fpu57</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_1u19esb" />
+    </bpmn:boundaryEvent>
+    <bpmn:exclusiveGateway id="Gateway_173q0k7">
+      <bpmn:incoming>Flow_1j4acv3</bpmn:incoming>
+      <bpmn:incoming>Flow_09idpnz</bpmn:incoming>
+      <bpmn:outgoing>Flow_069jbay</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_069jbay" sourceRef="Gateway_173q0k7" targetRef="Activity_UpdateMission" />
+    <bpmn:endEvent id="Event_MissionCanceled" name="Mission canceled">
+      <bpmn:incoming>Flow_0z1a03x</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0z1a03x" sourceRef="Event_Avengers" targetRef="Event_MissionCanceled" />
+    <bpmn:sequenceFlow id="Flow_16fpu57" sourceRef="Event_0iflbcc" targetRef="Activity_0gi55g3" />
+    <bpmn:sequenceFlow id="Flow_1of6i9r" sourceRef="Activity_0gi55g3" targetRef="Activity_1rfpm08" />
+    <bpmn:scriptTask id="Activity_0gi55g3" name="Set Rating to 1">
+      <bpmn:extensionElements>
+        <zeebe:script expression="=1" resultVariable="rating" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_16fpu57</bpmn:incoming>
+      <bpmn:outgoing>Flow_1of6i9r</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="Activity_1rfpm08" name="Set Mission Status to Failed">
+      <bpmn:extensionElements>
+        <zeebe:script expression="=&#34;FAILED&#34;" resultVariable="missionStatus" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1of6i9r</bpmn:incoming>
+      <bpmn:outgoing>Flow_09idpnz</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_09idpnz" sourceRef="Activity_1rfpm08" targetRef="Gateway_173q0k7" />
+  </bpmn:process>
+  <bpmn:error id="Error_NoHero" name="NO_HERO" errorCode="NO_HERO" />
+  <bpmn:error id="Error_0m5u6hk" name="DEADLINE_EXCEEDED" errorCode="DEADLINE_EXCEEDED" />
+  <bpmn:signal id="Signal_3a19jdh" name="AVENGERS_ASSEMBLE" />
+  <bpmn:message id="Message_334g9d4" name="MissionUpdate">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="=id" />
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="HeroAssignmentProcess">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="150" y="170" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="134" y="213" width="68" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_GetAvailableSuperHeros_di" bpmnElement="Activity_GetAvailableSuperHeros">
+        <dc:Bounds x="240" y="148" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ketppq_di" bpmnElement="Activity_1ketppq">
+        <dc:Bounds x="400" y="148" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_InformFury_di" bpmnElement="Activity_InformFury">
+        <dc:Bounds x="400" y="290" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_024ylq8_di" bpmnElement="Event_024ylq8">
+        <dc:Bounds x="582" y="312" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="555" y="355" width="90" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0w4oc42_di" bpmnElement="Activity_0gi55g3">
+        <dc:Bounds x="1430" y="282" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_12zbztq" bpmnElement="EvaluateMission">
+        <dc:Bounds x="1430" y="148" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_12hbtsu_di" bpmnElement="Event_12hbtsu">
+        <dc:Bounds x="2012" y="170" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1986" y="213" width="89" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0wydwiw" bpmnElement="Activity_UpdateMission">
+        <dc:Bounds x="1840" y="148" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_173q0k7_di" bpmnElement="Gateway_173q0k7" isMarkerVisible="true">
+        <dc:Bounds x="1735" y="163" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0sggtni" bpmnElement="Activity_1rfpm08">
+        <dc:Bounds x="1600" y="282" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0xencjc_di" bpmnElement="Activity_0xencjc" isExpanded="true">
+        <dc:Bounds x="690" y="80" width="630" height="330" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0xxwffa_di" bpmnElement="Event_0xxwffa">
+        <dc:Bounds x="712" y="172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="693" y="215" width="74" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_07zk34b" bpmnElement="Activity_AssignHeroToMission">
+        <dc:Bounds x="790" y="150" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_004qjgk" bpmnElement="Gateway_EventBased">
+        <dc:Bounds x="945" y="165" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1loesl5" bpmnElement="Event_DeadlineTimer">
+        <dc:Bounds x="1052" y="304" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1046" y="347" width="48" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0u62ds2" bpmnElement="Event_1nn9fsy">
+        <dc:Bounds x="1052" y="172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1032" y="215" width="77" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1eyzxx2_di" bpmnElement="Event_1eyzxx2">
+        <dc:Bounds x="1182" y="172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1171" y="215" width="58" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_00dyl9r_di" bpmnElement="Event_0i4pbkg">
+        <dc:Bounds x="1182" y="304" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1156" y="347" width="88" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_1vggaip" bpmnElement="Flow_02evhr3">
+        <di:waypoint x="890" y="190" />
+        <di:waypoint x="945" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_032ghf3" bpmnElement="Flow_1akqjx9">
+        <di:waypoint x="995" y="190" />
+        <di:waypoint x="1052" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1b2uxdk" bpmnElement="Flow_1ui4ngr">
+        <di:waypoint x="970" y="215" />
+        <di:waypoint x="970" y="322" />
+        <di:waypoint x="1052" y="322" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1q1lp2p_di" bpmnElement="Flow_1q1lp2p">
+        <di:waypoint x="748" y="190" />
+        <di:waypoint x="790" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_035xrrm_di" bpmnElement="Flow_035xrrm">
+        <di:waypoint x="1088" y="190" />
+        <di:waypoint x="1182" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_087qalt_di" bpmnElement="Flow_087qalt">
+        <di:waypoint x="1088" y="322" />
+        <di:waypoint x="1182" y="322" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_MissionCanceled_di" bpmnElement="Event_MissionCanceled">
+        <dc:Bounds x="1032" y="472" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1008" y="515" width="85" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1dvpy20_di" bpmnElement="Event_0iflbcc">
+        <dc:Bounds x="1302" y="304" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1326" y="348" width="88" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0r738jh_di" bpmnElement="Event_Avengers">
+        <dc:Bounds x="922" y="392" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="954" y="435" width="52" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1hp7xun_di" bpmnElement="Event_NoHero">
+        <dc:Bounds x="282" y="210" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="256" y="253" width="88" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1ye28l7_di" bpmnElement="Flow_1ye28l7">
+        <di:waypoint x="186" y="188" />
+        <di:waypoint x="240" y="188" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1qp5wz2_di" bpmnElement="Flow_1qp5wz2">
+        <di:waypoint x="340" y="188" />
+        <di:waypoint x="400" y="188" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1l0lpav_di" bpmnElement="Flow_1l0lpav">
+        <di:waypoint x="300" y="246" />
+        <di:waypoint x="300" y="330" />
+        <di:waypoint x="400" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0zujrnv_di" bpmnElement="Flow_0zujrnv">
+        <di:waypoint x="500" y="330" />
+        <di:waypoint x="582" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13oe2g8_di" bpmnElement="Flow_13oe2g8">
+        <di:waypoint x="500" y="188" />
+        <di:waypoint x="690" y="188" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1tbre5u_di" bpmnElement="Flow_1tbre5u">
+        <di:waypoint x="1320" y="188" />
+        <di:waypoint x="1430" y="188" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ftg3vp_di" bpmnElement="Flow_0ftg3vp">
+        <di:waypoint x="1940" y="188" />
+        <di:waypoint x="2012" y="188" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1j4acv3_di" bpmnElement="Flow_1j4acv3">
+        <di:waypoint x="1530" y="188" />
+        <di:waypoint x="1735" y="188" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_069jbay_di" bpmnElement="Flow_069jbay">
+        <di:waypoint x="1785" y="188" />
+        <di:waypoint x="1840" y="188" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0z1a03x_di" bpmnElement="Flow_0z1a03x">
+        <di:waypoint x="940" y="428" />
+        <di:waypoint x="940" y="490" />
+        <di:waypoint x="1032" y="490" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16fpu57_di" bpmnElement="Flow_16fpu57">
+        <di:waypoint x="1338" y="322" />
+        <di:waypoint x="1430" y="322" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1of6i9r_di" bpmnElement="Flow_1of6i9r">
+        <di:waypoint x="1530" y="322" />
+        <di:waypoint x="1600" y="322" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_09idpnz_di" bpmnElement="Flow_09idpnz">
+        <di:waypoint x="1700" y="322" />
+        <di:waypoint x="1760" y="322" />
+        <di:waypoint x="1760" y="213" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

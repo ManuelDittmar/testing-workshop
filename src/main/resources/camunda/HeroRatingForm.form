@@ -1,0 +1,48 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.5.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "8c4dae7"
+  },
+  "schemaVersion": 16,
+  "id": "HeroRatingForm",
+  "components": [
+    {
+      "text": "### Hero Rating for {{availableHeros[id = selectedHeroId].alias[1]}}",
+      "type": "text",
+      "id": "Subheading_0",
+      "layout": {
+        "row": "row_0",
+        "columns": null
+      }
+    },
+    {
+      "label": "Rating (1-5 ⭐)",
+      "type": "number",
+      "layout": {
+        "row": "row_1",
+        "columns": 5
+      },
+      "id": "Field_0vwiqzv",
+      "key": "rating",
+      "validate": {
+        "min": 1,
+        "max": 5,
+        "required": true
+      }
+    },
+    {
+      "text": "=string join(for x in 1..rating return \"⭐\")",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "row_1",
+        "columns": null
+      },
+      "id": "Field_0zei3rj"
+    }
+  ],
+  "generated": true,
+  "type": "default"
+}
